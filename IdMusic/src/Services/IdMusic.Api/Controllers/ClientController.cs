@@ -17,10 +17,13 @@ namespace IdMusic.Api.Controllers
   {
 
     private readonly IClientAppService _clientAppService;
+    private readonly IFriendAppService _friendAppService;
 
-    public ClientController(IClientAppService clientAppService)
+    public ClientController(IClientAppService clientAppService,
+                            IFriendAppService friendAppService)
     {
       _clientAppService = clientAppService;
+      _friendAppService = friendAppService;
     }
 
     [AllowAnonymous]
@@ -95,6 +98,78 @@ namespace IdMusic.Api.Controllers
       }
       
     }
+
+    [Authorize]
+    [HttpPost]
+    [Route("{id}/friends")]
+    public async Task<IActionResult> PostFriends([FromRoute] int id, [FromBody] FriendInput friendInput)
+    {
+      try
+      {
+        var friend = await _friendAppService
+                            .InsertAsync(id, friendInput)
+                            .ConfigureAwait(false);
+
+        return Created("", friend);
+      }
+      catch (ArgumentException arg)
+      {
+        return BadRequest(arg.Message);
+      }
+    }
+
+    [Authorize]
+    [HttpGet]
+    [Route("{id}/friends")]
+    public async Task<IActionResult> GetFriends([FromRoute] int id)
+    {
+      var friends = await _friendAppService
+                              .GetByFriendIdAsync(id)
+                              .ConfigureAwait(false);
+
+      if (friends is null)
+        return NoContent();
+
+      return Ok(friends);
+    }
+    [Authorize]
+    [HttpDelete]
+    [Route("{id}/friends")]
+    public async Task<IActionResult> Deletefriend([FromRoute] int id)
+    {
+      try
+      {
+        await _friendAppService
+                         .DeleteAsync(id)
+                         .ConfigureAwait(false);
+        return Ok();
+      }
+      catch (Exception ex)
+      {
+        return NotFound(ex.Message);
+      }
+
+    }
+    [Authorize]
+    [HttpGet]
+    [Route("{id}/friends/Quantity")]
+    public async Task<IActionResult> GetLike([FromRoute] int id)
+    {
+      try
+      {
+        var quantity = await _friendAppService
+                                .GetQuantityOfFriendByIdAsync(id)
+                                .ConfigureAwait(false);
+
+        return Ok(quantity);
+      }
+      catch (ArgumentException arg)
+      {
+        return BadRequest(arg.Message);
+      }
+    }
+
+
 
   }
 }

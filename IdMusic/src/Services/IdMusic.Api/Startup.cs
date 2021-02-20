@@ -30,7 +30,14 @@ namespace IdMusic.Api
         public void ConfigureServices(IServiceCollection services)
         {
           services.AddControllers();
-
+            services.AddCors(options =>
+            {
+              options.AddPolicy("CorsPolicy",
+                      builder =>
+                      builder.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader());
+            });
             var key = Encoding.ASCII.GetBytes(Configuration.GetSection("Secrets").Value);
 
             services.AddAuthentication(x =>
@@ -51,6 +58,8 @@ namespace IdMusic.Api
                 ValidateAudience = false
               };
             });
+
+            
 
             services.AddSwaggerGen(c => {
 
@@ -81,9 +90,9 @@ namespace IdMusic.Api
             }
 
             app.UseRouting();
-
+            app.UseCors("CorsPolicy");
             app.UseAuthorization();
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

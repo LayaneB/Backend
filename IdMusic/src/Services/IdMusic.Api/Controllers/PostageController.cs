@@ -62,7 +62,7 @@ namespace IdMusic.Api.Controllers
 
     [Authorize]
     [HttpPost]
-    [Route("{id}/Comments")]
+    [Route("{id}/Commentaries")]
     public async Task<IActionResult> PostCommets([FromRoute] int id, [FromBody] CommentaryInput commentaryInput)
     {
       try

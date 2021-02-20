@@ -53,7 +53,7 @@ namespace IdMusic.Application.AppPostage
                          .ConfigureAwait(false);
       if (user is null)
       {
-        throw new Exception("Postagem não encontrada");
+        throw new Exception("Comentário não encontrada");
       }
 
       await _commentaryRepository

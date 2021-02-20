@@ -10,6 +10,7 @@ namespace IdMusic.Repositories.IoC.Repositories
       services.AddScoped<IClientRepository, ClientRepository>();
       services.AddScoped<IGenreRepository, GenreRepository>();
       services.AddScoped<IPostageRepository, PostageRepository>();
+      services.AddScoped<IFriendRepository, FriendRepository>();
     }
   }
 }
