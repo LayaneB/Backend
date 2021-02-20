@@ -18,12 +18,15 @@ namespace IdMusic.Api.Controllers
 
     private readonly IClientAppService _clientAppService;
     private readonly IFriendAppService _friendAppService;
+    private readonly ILoginAppService _loginAppService;
 
     public ClientController(IClientAppService clientAppService,
-                            IFriendAppService friendAppService)
+                            IFriendAppService friendAppService,
+                            ILoginAppService loginAppService)
     {
       _clientAppService = clientAppService;
       _friendAppService = friendAppService;
+      _loginAppService = loginAppService;
     }
 
     [AllowAnonymous]
@@ -31,8 +34,8 @@ namespace IdMusic.Api.Controllers
     public async Task<IActionResult> Post([FromBody] ClientInput clientInput)
       {
       try
-      { 
-         var client = await _clientAppService
+      {
+        var client = await _clientAppService
                                 .InsertAsync(clientInput)
                                 .ConfigureAwait(false);
 
@@ -60,17 +63,18 @@ namespace IdMusic.Api.Controllers
     [Authorize]
     [HttpPut]
     [Route("{id}")]
-    public async Task<IActionResult> Put([FromRoute] int id, [FromBody]  ClientInput clientInput)
+    public async Task<IActionResult> Put([FromBody]  ClientInput clientInput)
     {
       try
       {
 
-        var client = await _clientAppService
-                               .UpdateAsync(id, clientInput)
-                               .ConfigureAwait(false);
 
+        var client = await _clientAppService
+                                .UpdateAsync(clientInput)
+                                .ConfigureAwait(false);
         return Accepted(client);
       }
+
       catch (ArgumentException arg)
       {
         return BadRequest(arg.Message);
@@ -83,14 +87,20 @@ namespace IdMusic.Api.Controllers
     [Authorize]
     [HttpDelete]
     [Route("{id}")]
-    public async Task<IActionResult> Delete([FromRoute] int id)
+    public async Task<IActionResult> Delete([FromRoute] int id, [FromBody]ClientInput clientInput)
     {
       try
       {
-        await _clientAppService
+        var logged = await _loginAppService
+                                    .LoginAsync(clientInput.Email, clientInput.Password)
+                                    .ConfigureAwait(false);
+        if (logged != null) {
+          await _clientAppService
                          .DeleteAsync(id)
                          .ConfigureAwait(false);
-        return Ok();
+          return Ok();
+        }
+        return default;
       }
       catch (Exception ex)
       {

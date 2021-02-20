@@ -23,7 +23,7 @@ namespace IdMusic.Api.Comum
                     new Claim(ClaimTypes.Role, client.Genre.Description),
                     new Claim(JwtRegisteredClaimNames.Jti, client.Id.ToString())
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(1),
+                Expires = DateTime.UtcNow.AddMinutes(100),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 

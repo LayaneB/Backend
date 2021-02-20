@@ -53,6 +53,8 @@ namespace IdMusic.Repositories
           {
 
             var client = new Client(reader["Name"].ToString(),
+                                      reader["Email"].ToString(),
+                                      reader["Password"].ToString(),
                                       DateTime.Parse(reader["Birthday"].ToString()),
                                       new Genre(reader["Description"].ToString()),
                                       reader["Photo"].ToString(),
@@ -61,7 +63,7 @@ namespace IdMusic.Repositories
                                       reader["Band"].ToString());
 
 
-            client.InformationLoginClient(reader["Email"].ToString(), reader["Password"].ToString());
+           
             client.SetId(int.Parse(reader["id"].ToString()));
             client.Genre.SetId(int.Parse(reader["GenreId"].ToString()));
 
@@ -108,14 +110,12 @@ namespace IdMusic.Repositories
           {
 
             var client = new Client(reader["Name"].ToString(),
-                                      reader["Email"].ToString(),
-                                      reader["Password"].ToString(),
-                                      DateTime.Parse(reader["Birthday"].ToString()),
-                                      new Genre(reader["Description"].ToString()),
-                                      reader["Photo"].ToString(),
-                                      reader["PhotoCapa"].ToString(),
-                                      reader["Biografy"].ToString(),
-                                      reader["Band"].ToString());
+                                    DateTime.Parse(reader["Birthday"].ToString()),
+                                    new Genre(reader["Description"].ToString()),
+                                    reader["Photo"].ToString(),
+                                    reader["PhotoCapa"].ToString(),
+                                    reader["Biografy"].ToString(),
+                                    reader["Band"].ToString());
 
 
             client.InformationLoginClient(reader["Email"].ToString(), reader["Password"].ToString());

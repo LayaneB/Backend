@@ -10,7 +10,7 @@ namespace IdMusic.Application.AppClient.interfaces
     Task<ClientViewModel> InsertAsync(ClientInput input);
 
     Task<ClientViewModel> GetByIdAsync(int Id);
-    Task<ClientViewModel> UpdateAsync(int id, ClientInput input);
+    Task<ClientViewModel> UpdateAsync(ClientInput input);
     Task DeleteAsync(int id);
   }
 }

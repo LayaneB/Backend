@@ -1,6 +1,7 @@
 using IdMusic.Application.AppClient.input;
 using IdMusic.Application.AppClient.interfaces;
 using IdMusic.Application.AppClient.output;
+using IdMusic.Domain.Core.interfaces;
 using IdMusic.Domain.Entities;
 using IdMusic.Domain.Interfaces;
 using System;
@@ -13,11 +14,14 @@ namespace IdMusic.Application.AppClient
   {
     private readonly IGenreRepository _genreRepository;
     private readonly IClientRepository _clientRepository;
+    private readonly ILogged _logged;
     public ClientAppService(IGenreRepository genreRepository,
-                            IClientRepository clientRepository)
+                            IClientRepository clientRepository,
+                            ILogged logged)
     {
       _genreRepository = genreRepository;
       _clientRepository = clientRepository;
+      _logged = logged;
     }
       public async Task<ClientViewModel> GetByIdAsync(int id)
     {
@@ -85,10 +89,12 @@ namespace IdMusic.Application.AppClient
         Band = client.Band
       };
     }
-    public async Task<ClientViewModel> UpdateAsync(int id, ClientInput input)
+    public async Task<ClientViewModel> UpdateAsync( ClientInput input)
     {
+      var IdClient = _logged.GetClientLoggedId();
+
       var client = await _clientRepository
-                               .GetByIdAsync(id)
+                               .GetByIdAsync(IdClient)
                                .ConfigureAwait(false);
       if (client is null)
       {
@@ -107,14 +113,14 @@ namespace IdMusic.Application.AppClient
                         input.Band);
 
       await _clientRepository
-        .UpdateAsync(id, client)
+        .UpdateAsync(IdClient, client)
         .ConfigureAwait(false);
 
 
 
       return new ClientViewModel()
       {
-        Id = id,
+        Id = IdClient,
         Name = client.Name,
         Birthday = client.Birthday,
         Email = client.Email,

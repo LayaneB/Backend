@@ -35,8 +35,8 @@ namespace IdMusic.Api
               options.AddPolicy("CorsPolicy",
                       builder =>
                       builder.AllowAnyOrigin()
-                            .AllowAnyMethod()
-                            .AllowAnyHeader());
+                             .AllowAnyMethod()
+                             .AllowAnyHeader());
             });
             var key = Encoding.ASCII.GetBytes(Configuration.GetSection("Secrets").Value);
 
