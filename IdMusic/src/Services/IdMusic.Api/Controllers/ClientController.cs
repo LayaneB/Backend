@@ -87,20 +87,15 @@ namespace IdMusic.Api.Controllers
     [Authorize]
     [HttpDelete]
     [Route("{id}")]
-    public async Task<IActionResult> Delete([FromRoute] int id, [FromBody]ClientInput clientInput)
+    public async Task<IActionResult> Delete([FromRoute] int id)
     {
       try
       {
-        var logged = await _loginAppService
-                                    .LoginAsync(clientInput.Email, clientInput.Password)
-                                    .ConfigureAwait(false);
-        if (logged != null) {
+        
           await _clientAppService
                          .DeleteAsync(id)
                          .ConfigureAwait(false);
           return Ok();
-        }
-        return default;
       }
       catch (Exception ex)
       {

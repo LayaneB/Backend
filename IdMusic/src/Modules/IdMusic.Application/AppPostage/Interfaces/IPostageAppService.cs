@@ -11,7 +11,7 @@ namespace IdMusic.Application.AppPostage.Interfaces
   public interface IPostageAppService
   {
     Task<Postage> InsertAsync(PostageInput input);
-    Task<List<Postage>> GetPostageByClientIdAsync();
+    Task<List<Postage>> GetPostageByClientIdAsync(int id);
     Task<Postage> UpdateAsync(int id, PostageInput postageInput);
     Task DeleteAsync(int id);
   }

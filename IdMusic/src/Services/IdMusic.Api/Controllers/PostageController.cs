@@ -1,6 +1,7 @@
 using IdMusic.Application.AppPostage;
 using IdMusic.Application.AppPostage.Input;
 using IdMusic.Application.AppPostage.Interfaces;
+using IdMusic.Domain.Core.interfaces;
 using IdMusic.Domain.Entities;
 using IdMusic.Domain.Entities.ValueObject;
 using Microsoft.AspNetCore.Authorization;
@@ -19,13 +20,16 @@ namespace IdMusic.Api.Controllers
     private readonly IPostageAppService _postageAppService;
     private readonly ICommentaryAppService _commentaryAppService;
     private readonly ILikeAppService _likeAppService;
+    private readonly ILogged _logged;
     public PostageController(IPostageAppService postageAppService,
-    ICommentaryAppService commentaryAppService,
-    ILikeAppService likeAppService)
+                             ICommentaryAppService commentaryAppService,
+                             ILikeAppService likeAppService,
+                             ILogged logged)
     {
       _postageAppService = postageAppService;
       _commentaryAppService = commentaryAppService;
       _likeAppService = likeAppService;
+      _logged = logged;
     }
 
     [Authorize]
@@ -48,10 +52,11 @@ namespace IdMusic.Api.Controllers
 
     [Authorize]
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> Get(PostageInput input)
     {
+      var clientId = _logged.GetClientLoggedId();
       var postages = await _postageAppService
-                              .GetPostageByClientIdAsync()
+                              .GetPostageByClientIdAsync(clientId)
                               .ConfigureAwait(false);
 
       if (postages is null)

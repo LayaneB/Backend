@@ -134,17 +134,17 @@ namespace IdMusic.Application.AppClient
 
     public async Task DeleteAsync(int id)
     {
-
-      var user = await _clientRepository
-                         .GetByIdAsync(id)
+      var IdClient = _logged.GetClientLoggedId();
+      var client = await _clientRepository
+                         .GetByIdAsync(IdClient)
                          .ConfigureAwait(false);
-      if (user is null)
+      if (client is null)
       {
         throw new Exception("Cliente não encontrado");
       }
 
       await _clientRepository
-        .DeleteAsync(id)
+        .DeleteAsync(IdClient)
         .ConfigureAwait(false);
     }
 

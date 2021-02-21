@@ -11,6 +11,8 @@ namespace IdMusic.Repositories.IoC.Repositories
       services.AddScoped<IGenreRepository, GenreRepository>();
       services.AddScoped<IPostageRepository, PostageRepository>();
       services.AddScoped<IFriendRepository, FriendRepository>();
+      services.AddScoped<ICommentaryRepository, CommentaryRepository>();
+      services.AddScoped<ILikeRepository, LikeRepository>();
     }
   }
 }

@@ -25,9 +25,9 @@ namespace IdMusic.Repositories
       {
         var sqlCmd = $@"DELETE 
                               FROM
-                              Curtidas
+                               Likes
                               WHERE 
-                              Id={id}";
+                                Id={id}";
 
         using (var cmd = new SqlCommand(sqlCmd, con))
         {
@@ -47,9 +47,9 @@ namespace IdMusic.Repositories
       {
         var sqlCmd = @$"SELECT Id,
 	                                  ClientId
-                                      PostageId
+                                    PostageId
                               FROM 
-	                              Curtidas
+	                              Likes
                               WHERE 
 	                              ClientId= '{clientId}'
                               AND 
@@ -113,8 +113,8 @@ namespace IdMusic.Repositories
       using (var con = new SqlConnection(_configuration["ConnectionString"]))
       {
         var sqlCmd = @"INSERT INTO
-                              Curtidas (ClientId,
-                                          PostageId)
+                              Likes (ClientId,
+                                        PostageId)
                               VALUES (@clientId,
                                       @postageId); SELECT scope_identity();";
 

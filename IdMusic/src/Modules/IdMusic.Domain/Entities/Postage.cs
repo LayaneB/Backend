@@ -7,10 +7,15 @@ namespace IdMusic.Domain.Entities
   public class Postage
   {
     public Postage(string text,
-                    int clientId)
+                   string photo,
+                   string video,
+                   int clientId,
+                   DateTime created)
     {
       Text = text;
       ClientId = clientId;
+      Photo = photo;
+      Video = video;
 
       Created = DateTime.Now;
     }

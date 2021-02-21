@@ -58,9 +58,6 @@ namespace IdMusic.Api
                 ValidateAudience = false
               };
             });
-
-            
-
             services.AddSwaggerGen(c => {
 
                   c.SwaggerDoc("v1",
@@ -91,8 +88,9 @@ namespace IdMusic.Api
 
             app.UseRouting();
             app.UseCors("CorsPolicy");
+            app.UseAuthentication();
             app.UseAuthorization();
-            
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -25,6 +25,7 @@ namespace IdMusic.Repositories
     {
       using (var con = new SqlConnection(_configuration["ConnectionString"]))
       {
+       
         var sqlCmd = @$"SELECT Id,
 	                                   ClientId,
                                      Text,
@@ -102,7 +103,7 @@ namespace IdMusic.Repositories
       using (var con = new SqlConnection(_configuration["ConnectionString"]))
       {
         var sqlCmd = @"INSERT INTO
-                                Postagem (ClientId,
+                                Postage (ClientId,
                                           Text,
                                           Photo,
                                           Video,
@@ -158,7 +159,7 @@ namespace IdMusic.Repositories
         {
           var sqlCmd = $@"UPDATE Postage SET Text = @text,
                                              Photo = @photo,
-                                             Video = @video,
+                                             Video = @video
                                        WHERE id = {postageInput.Id}";
 
           using (var cmd = new SqlCommand(sqlCmd, con))

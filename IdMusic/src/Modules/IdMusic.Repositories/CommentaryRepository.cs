@@ -98,7 +98,7 @@ namespace IdMusic.Repositories
       using (var con = new SqlConnection(_configuration["ConnectionString"]))
       {
         var sqlCmd = @"INSERT INTO
-                                Comentario (ClientId,
+                                Commentary (ClientId,
                                              PostageId,
                                              Text,
                                              Creation)

@@ -23,7 +23,7 @@ namespace IdMusic.Application.AppPostage
       _logged = logged;
     }
 
-    public async Task<List<Postage>> GetPostageByClientIdAsync()
+    public async Task<List<Postage>> GetPostageByClientIdAsync(int id)
     {
       var clientId = _logged.GetClientLoggedId();
 
@@ -37,7 +37,11 @@ namespace IdMusic.Application.AppPostage
     {
       var clientId = _logged.GetClientLoggedId();
 
-      var postage = new Postage(input.Text, clientId);
+      var postage = new Postage(input.Text,
+                                input.Photo,
+                                input.Video,
+                                clientId,
+                                DateTime.Now);
 
       //Validar classe com dados obrigatorios..
 
@@ -52,6 +56,7 @@ namespace IdMusic.Application.AppPostage
 
     public async Task<Postage> UpdateAsync(int id, PostageInput postageInput)
     {
+      var clientId = _logged.GetClientLoggedId();
       var postage = await _postageRepository
                                .GetPostageByIdAsync(id)
                                .ConfigureAwait(false);
@@ -68,16 +73,20 @@ namespace IdMusic.Application.AppPostage
         .UpdateAsync(id, postage)
         .ConfigureAwait(false);
 
-      return new Postage(postage.Text, postage.ClientId);
+      return new Postage(postage.Text,
+                         postage.Photo,
+                         postage.Video,
+                         clientId,
+                         DateTime.Now);
     }
 
     public async Task DeleteAsync(int id)
     {
 
-      var user = await _postageRepository
+      var postage = await _postageRepository
                          .GetPostageByClientIdAsync(id)
                          .ConfigureAwait(false);
-      if (user is null)
+      if (postage is null)
       {
         throw new Exception("Postagem não encontrada");
       }

@@ -24,6 +24,8 @@ namespace IdMusic.Repositories.IoC.Application
       services.AddScoped<ILoginAppService, LoginAppService>();
       services.AddScoped<IPostageAppService, PostageAppService>();
       services.AddScoped<IFriendAppService, FriendAppService>();
+      services.AddScoped<ILikeAppService, LikeAppService>();
+      services.AddScoped<ICommentaryAppService, CommentaryAppService>();
 
     }
     }
