@@ -26,9 +26,11 @@ namespace IdMusic.Repositories
       using (var con = new SqlConnection(_configuration["ConnectionString"]))
       {
        
-        var sqlCmd = @$"SELECT Id,
-	                                   ClientId,
+        var sqlCmd = @$"SELECT       Id,
                                      Text,
+                                     Photo,
+                                     Video,
+                                     ClientId,
                                      Creation
                                 FROM 
 	                                Postage

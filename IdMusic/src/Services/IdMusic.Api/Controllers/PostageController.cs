@@ -52,11 +52,12 @@ namespace IdMusic.Api.Controllers
 
     [Authorize]
     [HttpGet]
-    public async Task<IActionResult> Get(PostageInput input)
+    [Route("{id}")]
+    public async Task<IActionResult> Get(int id)
     {
-      var clientId = _logged.GetClientLoggedId();
+     
       var postages = await _postageAppService
-                              .GetPostageByClientIdAsync(clientId)
+                              .GetPostageByClientIdAsync(id)
                               .ConfigureAwait(false);
 
       if (postages is null)

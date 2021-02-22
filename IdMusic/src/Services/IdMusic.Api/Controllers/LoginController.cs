@@ -1,6 +1,7 @@
 using IdMusic.Api.Comum;
 using IdMusic.Application.AppClient.input;
 using IdMusic.Application.AppClient.interfaces;
+using IdMusic.Domain.Core.interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,11 +19,14 @@ namespace IdMusic.Api.Controllers
     {
         private readonly ILoginAppService _loginAppService;
         private readonly IConfiguration _configuration;
+        private readonly ILogged _logged;
         public LoginController(ILoginAppService loginAppService,
-                                IConfiguration configuration)
+                                IConfiguration configuration,
+                                ILogged logged)
         {
             _loginAppService = loginAppService;
             _configuration = configuration;
+            _logged = logged;
         }
 
         [AllowAnonymous]
@@ -37,11 +41,12 @@ namespace IdMusic.Api.Controllers
                 var logged = await _loginAppService
                                     .LoginAsync(input.Login, input.Password)
                                     .ConfigureAwait(false);
+                
 
                 if (logged != null)
                 {
                     var token = TokenService.GenerateToken(logged, _configuration.GetSection("Secrets").Value);
-
+                    
                     return new
                     {
                         authenticated = true,
